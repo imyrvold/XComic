@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct XComicsApp: App {
+    let comicsViewModel = ComicsViewModel(comics: Preview.comic(file: "allComics.json"))
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: comicsViewModel)
         }
     }
 }
