@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import Combine
 
 final class ComicsViewModel: ObservableObject {
+    private var subscriptions: Set<AnyCancellable> = []
     @Published var num = 600
     @Published var searchText = ""
     @Published var image: Image?
@@ -24,7 +26,9 @@ final class ComicsViewModel: ObservableObject {
         return getComic(for: selectedNum)
     }
     
-    init() {}
+    init() {
+        observeSearchText()
+    }
     
     convenience init(comics: [Comic]) {
         self.init()
@@ -41,6 +45,26 @@ final class ComicsViewModel: ObservableObject {
     
     enum Destination: Hashable {
         case info(Comic)
+    }
+
+    func observeSearchText() {
+        $searchText
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] text in
+                guard let self else { return }
+                guard let number = Int(text) else { return }
+                if let comic = self.getComic(for: number), let url = comic.url {
+                    self.selectedNum = comic.num
+                    Task {
+                        await self.loadImage(at: URLRequest(url: url))
+                    }
+                } else {
+                    Task {
+                        await self.loadComic(with: number)
+                    }
+                }
+            }
+            .store(in: &subscriptions)
     }
     
     func showInfo() {
@@ -101,23 +125,27 @@ final class ComicsViewModel: ObservableObject {
         if let comic = comics.first(where: { $0.num == nextNum }), let url = comic.url {
             await loadImage(at: URLRequest(url: url))
         } else {
-            do {
-                var apiClient = ApiClient<Comic>(method: .GET, path: "\(nextNum)/info.0.json")
-                let comic = try await apiClient.getData()
-                comics.append(comic)
-                if let url = comic.url {
-                    await loadImage(at: URLRequest(url: url))
-                }
-            } catch {
-                if let error = error as? AppError {
-                    print("Error loading next comic:", error.localizedDescription)
-                } else {
-                    print("Error loading next comic:", error.localizedDescription)
-                }
-            }
+            await loadComic(with: nextNum)
         }
         self.selectedNum = nextNum
         disabledLeft = self.selectedNum == comics.first?.num
         loading = false
+    }
+    
+    func loadComic(with num: Int) async {
+        do {
+            var apiClient = ApiClient<Comic>(method: .GET, path: "\(num)/info.0.json")
+            let comic = try await apiClient.getData()
+            comics.append(comic)
+            if let url = comic.url {
+                await loadImage(at: URLRequest(url: url))
+            }
+        } catch {
+            if let error = error as? AppError {
+                print("Error loading next comic:", error.localizedDescription)
+            } else {
+                print("Error loading next comic:", error.localizedDescription)
+            }
+        }
     }
 }

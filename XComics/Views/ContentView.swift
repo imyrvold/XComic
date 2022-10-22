@@ -14,7 +14,7 @@ struct ContentView: View {
         NavigationStack(path: $viewModel.path) {
             VStack {
                 Text("")
-                    .searchable(text: $viewModel.searchText)
+                    .searchable(text: $viewModel.searchText, prompt: "Search for number")
                 HStack {
                     Button(action: {
                         Task {

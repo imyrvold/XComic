@@ -14,8 +14,14 @@ struct DetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                Text("day: \(comic.day), month: \(comic.month), year: \(comic.year)")
-                    .font(.caption)
+                HStack {
+                    Text("day: \(comic.day), month: \(comic.month), year: \(comic.year)")
+                        .font(.caption)
+                    Spacer()
+                    Text(String(comic.num))
+                        .font(.caption)
+                }
+                .foregroundColor(.gray)
                 VStack(alignment: .leading) {
                     Text("alt:")
                         .font(.title2)
