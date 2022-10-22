@@ -28,7 +28,7 @@ struct ContentView: View {
                     if viewModel.loading {
                         ProgressView()
                     } else {
-                        Button(action: {}) {
+                        Button(action: { viewModel.showInfo() }) {
                             Image(systemName: "info.circle")
                                 .font(.title)
                         }
@@ -45,12 +45,17 @@ struct ContentView: View {
                 }
                 .font(.title)
                 .padding(.bottom)
+                .navigationDestination(for: ComicsViewModel.Destination.self) { destination in
+                    viewModel.viewForDestination(destination)
+                }
+
                 viewModel.selectedComic
                 Spacer()
             }
             .padding(.horizontal)
             .navigationTitle("XComics")
         }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
@@ -58,7 +63,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let comics = Preview.comic(file: "allComics.json")
         let viewModel = ComicsViewModel(comics: comics)
-//        ContentView()
         ContentView(viewModel: viewModel)
     }
 }

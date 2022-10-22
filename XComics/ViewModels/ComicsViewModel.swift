@@ -17,6 +17,7 @@ final class ComicsViewModel: ObservableObject {
     @Published var loading = false
     
     @Published var comics: [Comic] = []
+    @Published var path = NavigationPath()
     lazy var imageLoader = ImageLoader()
     
     init() {}
@@ -27,11 +28,32 @@ final class ComicsViewModel: ObservableObject {
         if let url = comics.first?.url {
             Task {
                 await loadImage(at: URLRequest(url: url))
-                selectedNum = comics.first?.num
+                DispatchQueue.main.async {
+                    self.selectedNum = comics.first?.num
+                }
             }
         }
     }
     
+    enum Destination {
+        case info
+        case none
+    }
+    
+    func showInfo() {
+        guard let selectedNum else { return }
+        path.append(Destination.info)
+    }
+    
+    @ViewBuilder func viewForDestination(_ destination: Destination) -> some View {
+        switch destination {
+        case .info:
+            Text("Hullu")
+        case .none:
+            EmptyView()
+        }
+    }
+
     @MainActor
     func loadImage(at source: URLRequest) async {
         do {
@@ -58,12 +80,16 @@ final class ComicsViewModel: ObservableObject {
         guard let selectedNum else { return }
         loading = true
         let previousNum = max(selectedNum - 1, 0)
-        if let comic = comics.first(where: { $0.num == previousNum }), let url = comic.url {
+        if let comic = getComic(for: previousNum), let url = comic.url {
             await loadImage(at: URLRequest(url: url))
             self.selectedNum = previousNum
         }
         disabledLeft = self.selectedNum == comics.first?.num
         loading = false
+    }
+    
+    func getComic(for num: Int) -> Comic? {
+        comics.first(where: { $0.num == num })
     }
     
     @MainActor

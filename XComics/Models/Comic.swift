@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Comic: /*Identifiable,*/ Decodable {
+struct Comic: Identifiable, Hashable, Decodable {
     var id: Int {
         num
     }
