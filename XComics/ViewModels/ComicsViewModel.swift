@@ -63,29 +63,34 @@ final class ComicsViewModel: ObservableObject {
             self.selectedNum = previousNum
         }
         disabledLeft = self.selectedNum == comics.first?.num
-        disabledRight = self.selectedNum == comics.last?.num
         loading = false
     }
     
     @MainActor
     func next() async {
-        guard let selectedNum, let lastNum = comics.last?.num else { return }
+        guard let selectedNum else { return }
         loading = true
-        let nextNum = min(selectedNum + 1, lastNum)
+        let nextNum = selectedNum + 1
         if let comic = comics.first(where: { $0.num == nextNum }), let url = comic.url {
             await loadImage(at: URLRequest(url: url))
-            self.selectedNum = nextNum
         } else {
             do {
-                var apiClient = ApiClient<Comic>(method: .GET, path: "\(selectedNum)/info.0.json")
+                var apiClient = ApiClient<Comic>(method: .GET, path: "\(nextNum)/info.0.json")
                 let comic = try await apiClient.getData()
                 comics.append(comic)
+                if let url = comic.url {
+                    await loadImage(at: URLRequest(url: url))
+                }
             } catch {
-                
+                if let error = error as? AppError {
+                    print("Error loading next comic:", error.localizedDescription)
+                } else {
+                    print("Error loading next comic:", error.localizedDescription)
+                }
             }
         }
+        self.selectedNum = nextNum
         disabledLeft = self.selectedNum == comics.first?.num
-        disabledRight = self.selectedNum == comics.last?.num
         loading = false
     }
 }
