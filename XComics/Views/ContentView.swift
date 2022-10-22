@@ -11,7 +11,7 @@ struct ContentView: View {
     @ObservedObject var viewModel: ComicsViewModel
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $viewModel.path) {
             VStack {
                 Text("")
                     .searchable(text: $viewModel.searchText)

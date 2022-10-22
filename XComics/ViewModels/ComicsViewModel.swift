@@ -35,22 +35,19 @@ final class ComicsViewModel: ObservableObject {
         }
     }
     
-    enum Destination {
-        case info
-        case none
+    enum Destination: Hashable {
+        case info(Comic)
     }
     
     func showInfo() {
-        guard let selectedNum else { return }
-        path.append(Destination.info)
+        guard let selectedNum, let comic = getComic(for: selectedNum) else { return }
+        path.append(Destination.info(comic))
     }
     
     @ViewBuilder func viewForDestination(_ destination: Destination) -> some View {
         switch destination {
-        case .info:
-            Text("Hullu")
-        case .none:
-            EmptyView()
+        case .info(let comic):
+            Text("Hullu title: \(comic.title)")
         }
     }
 
