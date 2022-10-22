@@ -27,6 +27,11 @@ struct ContentView: View {
                     Spacer()
                     if viewModel.loading {
                         ProgressView()
+                    } else {
+                        Button(action: {}) {
+                            Image(systemName: "info.circle")
+                                .font(.title)
+                        }
                     }
                     Spacer()
                     Button(action: {
