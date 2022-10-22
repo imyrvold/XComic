@@ -53,14 +53,17 @@ final class ComicsViewModel: ObservableObject {
             .sink { [weak self] text in
                 guard let self else { return }
                 guard let number = Int(text) else { return }
+                self.loading = true
                 if let comic = self.getComic(for: number), let url = comic.url {
                     self.selectedNum = comic.num
                     Task {
                         await self.loadImage(at: URLRequest(url: url))
-                    }
+                        self.loading = false
+                }
                 } else {
                     Task {
                         await self.loadComic(with: number)
+                        self.loading = false
                     }
                 }
             }
@@ -124,10 +127,10 @@ final class ComicsViewModel: ObservableObject {
         let nextNum = selectedNum + 1
         if let comic = comics.first(where: { $0.num == nextNum }), let url = comic.url {
             await loadImage(at: URLRequest(url: url))
+            self.selectedNum = nextNum
         } else {
             await loadComic(with: nextNum)
         }
-        self.selectedNum = nextNum
         disabledLeft = self.selectedNum == comics.first?.num
         loading = false
     }
@@ -136,6 +139,7 @@ final class ComicsViewModel: ObservableObject {
         do {
             var apiClient = ApiClient<Comic>(method: .GET, path: "\(num)/info.0.json")
             let comic = try await apiClient.getData()
+            selectedNum = comic.num
             comics.append(comic)
             if let url = comic.url {
                 await loadImage(at: URLRequest(url: url))
