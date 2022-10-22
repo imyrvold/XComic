@@ -21,6 +21,7 @@
 		F6F600452903A61C0057357F /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F600442903A61C0057357F /* ApiClient.swift */; };
 		F6F600472903A65E0057357F /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F600462903A65E0057357F /* ApiRequest.swift */; };
 		F6F600492903AA970057357F /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F600482903AA970057357F /* AppError.swift */; };
+		F6F6004B2903B5F90057357F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F6F6004A2903B5F90057357F /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		F6F600442903A61C0057357F /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		F6F600462903A65E0057357F /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
 		F6F600482903AA970057357F /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		F6F6004A2903B5F90057357F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 		F6AFC4E72902DA0800CB6134 = {
 			isa = PBXGroup;
 			children = (
+				F6F6004A2903B5F90057357F /* README.md */,
 				F6AFC4F22902DA0800CB6134 /* XComics */,
 				F6AFC4F12902DA0800CB6134 /* Products */,
 			);
@@ -213,6 +216,7 @@
 			files = (
 				F6AFC5032902DF6600CB6134 /* allComics.json in Resources */,
 				F6AFC4FB2902DA0900CB6134 /* Preview Assets.xcassets in Resources */,
+				F6F6004B2903B5F90057357F /* README.md in Resources */,
 				F6AFC4F82902DA0900CB6134 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
