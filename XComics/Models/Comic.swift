@@ -26,6 +26,7 @@ struct Comic: Identifiable, Hashable, Decodable {
     let img: String
     let title: String
     let day: String
+    let year: String
     
     private enum CodingKeys: String, CodingKey {
         case month
@@ -38,5 +39,6 @@ struct Comic: Identifiable, Hashable, Decodable {
         case img
         case title
         case day
+        case year
     }
 }

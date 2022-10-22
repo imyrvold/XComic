@@ -28,9 +28,15 @@ struct ContentView: View {
                     if viewModel.loading {
                         ProgressView()
                     } else {
-                        Button(action: { viewModel.showInfo() }) {
-                            Image(systemName: "info.circle")
-                                .font(.title)
+                        HStack {
+                            if let comic = viewModel.selectedComicInfo {
+                                Text(comic.title)
+                                    .font(.title2)
+                            }
+                            Button(action: { viewModel.showInfo() }) {
+                                Image(systemName: "info.circle")
+                                    .font(.title)
+                            }
                         }
                     }
                     Spacer()

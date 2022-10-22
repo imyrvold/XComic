@@ -19,6 +19,10 @@ final class ComicsViewModel: ObservableObject {
     @Published var comics: [Comic] = []
     @Published var path = NavigationPath()
     lazy var imageLoader = ImageLoader()
+    var selectedComicInfo: Comic? {
+        guard let selectedNum else { return nil }
+        return getComic(for: selectedNum)
+    }
     
     init() {}
     
@@ -47,7 +51,7 @@ final class ComicsViewModel: ObservableObject {
     @ViewBuilder func viewForDestination(_ destination: Destination) -> some View {
         switch destination {
         case .info(let comic):
-            Text("Hullu title: \(comic.title)")
+            DetailView(comic: comic)
         }
     }
 
