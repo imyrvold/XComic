@@ -10,24 +10,35 @@ import Combine
 
 final class ComicsViewModel: ObservableObject {
     private var subscriptions: Set<AnyCancellable> = []
-    @Published var num = 600
     @Published var searchText = ""
     @Published var image: Image?
     @Published var disabledLeft = true
     @Published var disabledRight = false
-    @Published var selectedNum: Int? = nil
+    @Published var selectedNum: Int? = nil {
+        didSet {
+            guard let url = selectedNum else { return }
+            webViewModel.url = "\(explainUrl)/\(url)"
+        }
+    }
     @Published var loading = false
     
     @Published var comics: [Comic] = []
     @Published var path = NavigationPath()
+    @Published var showWebView = false
     lazy var imageLoader = ImageLoader()
+    lazy var webViewModel = WebViewModel(url: "\(explainUrl)/600")
+    var explainUrl: String {
+        "https://www.explainxkcd.com/wiki/index.php"
+    }
     var selectedComicInfo: Comic? {
         guard let selectedNum else { return nil }
         return getComic(for: selectedNum)
     }
     
     init() {
-        observeSearchText()
+        Task {
+            await observeSearchText()
+        }
     }
     
     convenience init(comics: [Comic]) {
@@ -47,6 +58,7 @@ final class ComicsViewModel: ObservableObject {
         case info(Comic)
     }
 
+    @MainActor
     func observeSearchText() {
         $searchText
             .receive(on: DispatchQueue.main)
@@ -135,6 +147,7 @@ final class ComicsViewModel: ObservableObject {
         loading = false
     }
     
+    @MainActor
     func loadComic(with num: Int) async {
         do {
             var apiClient = ApiClient<Comic>(method: .GET, path: "\(num)/info.0.json")

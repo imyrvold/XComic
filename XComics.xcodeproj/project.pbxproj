@@ -23,6 +23,8 @@
 		F6F600492903AA970057357F /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F600482903AA970057357F /* AppError.swift */; };
 		F6F6004B2903B5F90057357F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F6F6004A2903B5F90057357F /* README.md */; };
 		F6F6004D2903E5540057357F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F6004C2903E5540057357F /* DetailView.swift */; };
+		F6F6004F2904FA9F0057357F /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F6004E2904FA9F0057357F /* WebViewContainer.swift */; };
+		F6F600512904FAD30057357F /* WebViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F600502904FAD30057357F /* WebViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		F6F600482903AA970057357F /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		F6F6004A2903B5F90057357F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F6F6004C2903E5540057357F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		F6F6004E2904FA9F0057357F /* WebViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewContainer.swift; sourceTree = "<group>"; };
+		F6F600502904FAD30057357F /* WebViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				F6AFC50F2902E7FE00CB6134 /* ComicsViewModel.swift */,
+				F6F600502904FAD30057357F /* WebViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -144,6 +149,7 @@
 			children = (
 				F6AFC4F52902DA0800CB6134 /* ContentView.swift */,
 				F6F6004C2903E5540057357F /* DetailView.swift */,
+				F6F6004E2904FA9F0057357F /* WebViewContainer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -235,6 +241,7 @@
 				F6F6004D2903E5540057357F /* DetailView.swift in Sources */,
 				F6AFC5102902E7FE00CB6134 /* ComicsViewModel.swift in Sources */,
 				F6F600452903A61C0057357F /* ApiClient.swift in Sources */,
+				F6F6004F2904FA9F0057357F /* WebViewContainer.swift in Sources */,
 				F6AFC4F62902DA0800CB6134 /* ContentView.swift in Sources */,
 				F6AFC5092902E5C000CB6134 /* Preview.Comic.swift in Sources */,
 				F6AFC5152902F06400CB6134 /* EnvironmentValues+ImageLoaderKey.swift in Sources */,
@@ -243,6 +250,7 @@
 				F6F600492903AA970057357F /* AppError.swift in Sources */,
 				F6F600472903A65E0057357F /* ApiRequest.swift in Sources */,
 				F6AFC4F42902DA0800CB6134 /* XComicsApp.swift in Sources */,
+				F6F600512904FAD30057357F /* WebViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

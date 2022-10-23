@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DetailView: View {
     let comic: Comic
-    @SwiftUI.Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         ScrollView {

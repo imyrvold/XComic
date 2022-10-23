@@ -54,6 +54,25 @@ struct ContentView: View {
                 .navigationDestination(for: ComicsViewModel.Destination.self) { destination in
                     viewModel.viewForDestination(destination)
                 }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: { viewModel.showWebView = true }, label: {
+                            Image(systemName: "questionmark.app")
+                        })
+                    }
+                }
+                .fullScreenCover(isPresented: $viewModel.showWebView) {
+                    NavigationStack {
+                        WebViewContainer(webViewModel: viewModel.webViewModel)
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    Button(action: { viewModel.showWebView = false }, label: {
+                                        Image(systemName: "xmark")
+                                    })
+                                }
+                            }
+                    }
+                }
 
                 viewModel.selectedComic
                 Spacer()
