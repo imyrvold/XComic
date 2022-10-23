@@ -25,17 +25,15 @@ actor ImageLoader {
             }
         }
 
-//        if let image = try self.imageFromFileSystem(for: urlRequest) {
-//            print("fetch 3")
-//            images[urlRequest] = .fetched(image)
-//            print("fetch 4")
-//            return image
-//        }
+        if let image = try self.imageFromFileSystem(for: urlRequest) {
+            images[urlRequest] = .fetched(image)
+            return image
+        }
 
         let task: Task<UIImage, Error> = Task {
             let (imageData, _) = try await URLSession.shared.data(for: urlRequest)
             let image = UIImage(data: imageData)!
-//            try self.persistImage(image, for: urlRequest)
+            try self.persistImage(image, for: urlRequest)
             return image
         }
 
@@ -60,17 +58,20 @@ actor ImageLoader {
     
     private func imageFromFileSystem(for urlRequest: URLRequest) throws -> UIImage? {
         guard let url = fileName(for: urlRequest) else {
-            assertionFailure("Unable to generate a local path for \(urlRequest)")
             return nil
         }
 
-        let data = try Data(contentsOf: url)
-        return UIImage(data: data)
+        do {
+            let data = try Data(contentsOf: url)
+            return UIImage(data: data)
+        } catch {
+            return nil
+        }
     }
 
     private func fileName(for urlRequest: URLRequest) -> URL? {
-        guard let fileName = urlRequest.url?.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed),
-              let applicationSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+        guard let fileName = urlRequest.url?.lastPathComponent,
+              let applicationSupport = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
                   return nil
               }
 

@@ -13,7 +13,7 @@ I started out with the preview part, by implementing the **Preview.Comic**. The 
 It is used in both **ContentView_Previews** and **DetailView_Previews**. I added a json file with an array of 20 comic json objects, for easy previewing from the xkcd web site.
 
 ## Networking
-Next I googled around to find a simple solution for image loading, using the new Swift concurrency features. I have previously used AsyncImage, but wanted to avoid using external packages. I found a nice implementation at [Using Swift’s async/await to build an image loader](https://www.donnywals.com/using-swifts-async-await-to-build-an-image-loader/). I modified it a bit, mainly by commenting out the persisting the image to file after loading, which gave me an error that I at the time didn't immediately see a solution for. I thought I would come back solving this issue later if I had time.
+Next I googled around to find a simple solution for image loading, using the new Swift concurrency features. I have previously used AsyncImage, but wanted to avoid using external packages. I found a nice implementation at [Using Swift’s async/await to build an image loader](https://www.donnywals.com/using-swifts-async-await-to-build-an-image-loader/). I modified it a bit, mainly by commenting out the persisting the image to file after loading, which gave me an error that I at the time didn't immediately see a solution for. I thought I would come back solving this issue later if I had time. (In the last hour of the challenge, I fixed this issue.)
 
 For the API networking I used a proven model and functions I have previously used, the *ApiClient* which uses a generic struct type that makes it very easy to directly decode json loaded from an API call directly to a Swift model. I have implemented this solution myself in my present work, just simplified it a bit for this app.
 
@@ -47,5 +47,6 @@ I added a new ToolbarItem on the trailing side of the Navigation bar for sharing
 ## Conclusion 
 The app now looks like it works fairly well. There are a few things I would like to do, but as I am now over 11 hours into the challenge, I must start to see if I can fix the most obvious missing features.
 
-
+## Last minutes notes
+As I am finishing the challenge, I revisited the issue of persisting the image to a file on the device. I found out that it tried to write to the *applicationSupportDirectory*, and when I replaced that with *documentDirectory*, it worked. I can now browse the comics, and when a comic strip image have been persisted to file, it reads quickly from file instead of fetching from the xkcd api. This results in a much quicker and pleasing way to browse the comics.
 
