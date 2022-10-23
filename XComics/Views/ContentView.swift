@@ -56,7 +56,7 @@ struct ContentView: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: { viewModel.showWebView = true }, label: {
+                        Button(action: { viewModel.showExplanation() }, label: {
                             Image(systemName: "questionmark.app")
                         })
                     }

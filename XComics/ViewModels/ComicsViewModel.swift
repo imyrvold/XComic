@@ -87,6 +87,11 @@ final class ComicsViewModel: ObservableObject {
         path.append(Destination.info(comic))
     }
     
+    @MainActor
+    func showExplanation() {
+        showWebView = true
+    }
+    
     @ViewBuilder func viewForDestination(_ destination: Destination) -> some View {
         switch destination {
         case .info(let comic):

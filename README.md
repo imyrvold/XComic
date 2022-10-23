@@ -35,6 +35,9 @@ I wanted initially use the new token based searching that came with iOS 16, so t
 
 I also added a progress indicator that as shown instead of the comic strip title and the info button, when making a network request.
 
+## Comix Explanation
+As I understood the  task getting the comic explanation, is to present a web view that explains the comic presented. I implemented this with a UIViewRepresentable, as there is no native Web View yet in SwiftUI. I am using a full screen view modifier feature in SwiftUI to present the web view. This worked fine, the web view is showing the comic explanation site. But I also found out that I got the *"This method should not be called on the main thread as it may lead to UI unresponsiveness."* runtime warning when a web view is presented, and that is in the XComicsApp. I thought I would fix that by using a @MainActor attribute for the function that sets the flag that makes the web view appear, but I am still getting this warning. I am not sure if this is a bug in SwiftUI, or if I am missing something here.
+
 ## Conclusion 
 The app now looks like it works fairly well. There are a few things I would like to do, but as I am now over 11 hours into the challenge, I must start to see if I can fix the most obvious missing features.
 
