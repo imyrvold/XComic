@@ -25,6 +25,7 @@ final class ComicsViewModel: ObservableObject {
     @Published var comics: [Comic] = []
     @Published var path = NavigationPath()
     @Published var showWebView = false
+    @Published var isFavorite = false
     lazy var imageLoader = ImageLoader()
     lazy var webViewModel = WebViewModel(url: "\(explainUrl)/600")
     var explainUrl: String {
@@ -49,6 +50,7 @@ final class ComicsViewModel: ObservableObject {
                 await loadImage(at: URLRequest(url: url))
                 DispatchQueue.main.async {
                     self.selectedNum = comics.first?.num
+                    self.isFavorite = comics.first?.isFavorite ?? false
                 }
             }
         }
@@ -68,6 +70,7 @@ final class ComicsViewModel: ObservableObject {
                 self.loading = true
                 if let comic = self.getComic(for: number), let url = comic.url {
                     self.selectedNum = comic.num
+                    self.isFavorite = comic.isFavorite
                     Task {
                         await self.loadImage(at: URLRequest(url: url))
                         self.loading = false
@@ -85,6 +88,16 @@ final class ComicsViewModel: ObservableObject {
     func showInfo() {
         guard let selectedNum, let comic = getComic(for: selectedNum) else { return }
         path.append(Destination.info(comic))
+    }
+    
+    func favorite() {
+        guard let selectedNum else { return }
+        guard var comic = getComic(for: selectedNum) else { return }
+        comic.toggleFavorite()
+        isFavorite = comic.isFavorite
+        if let index = comics.firstIndex(where: { $0 == comic }) {
+            comics[index] = comic
+        }
     }
     
     @MainActor
@@ -128,6 +141,7 @@ final class ComicsViewModel: ObservableObject {
         if let comic = getComic(for: previousNum), let url = comic.url {
             await loadImage(at: URLRequest(url: url))
             self.selectedNum = previousNum
+            self.isFavorite = comic.isFavorite
         }
         disabledLeft = self.selectedNum == comics.first?.num
         loading = false
@@ -145,6 +159,7 @@ final class ComicsViewModel: ObservableObject {
         if let comic = comics.first(where: { $0.num == nextNum }), let url = comic.url {
             await loadImage(at: URLRequest(url: url))
             self.selectedNum = nextNum
+            self.isFavorite = comic.isFavorite
         } else {
             await loadComic(with: nextNum)
         }
@@ -158,6 +173,7 @@ final class ComicsViewModel: ObservableObject {
             var apiClient = ApiClient<Comic>(method: .GET, path: "\(num)/info.0.json")
             let comic = try await apiClient.getData()
             selectedNum = comic.num
+            isFavorite = comic.isFavorite
             comics.append(comic)
             if let url = comic.url {
                 await loadImage(at: URLRequest(url: url))

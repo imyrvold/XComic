@@ -60,6 +60,11 @@ struct ContentView: View {
                             Image(systemName: "questionmark.app")
                         })
                     }
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: { viewModel.favorite() }, label: {
+                            Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
+                        })
+                    }
                 }
                 .fullScreenCover(isPresented: $viewModel.showWebView) {
                     NavigationStack {

@@ -27,6 +27,7 @@ struct Comic: Identifiable, Hashable, Decodable {
     let title: String
     let day: String
     let year: String
+    var isFavorite = false
     
     private enum CodingKeys: String, CodingKey {
         case month
@@ -40,5 +41,15 @@ struct Comic: Identifiable, Hashable, Decodable {
         case title
         case day
         case year
+    }
+    
+    mutating func toggleFavorite() {
+        isFavorite = !isFavorite
+    }
+}
+
+extension Comic: Equatable {
+    static func == (lhs: Comic, rhs: Comic) -> Bool {
+        lhs.id == rhs.id
     }
 }
