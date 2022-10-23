@@ -61,6 +61,11 @@ struct ContentView: View {
                         })
                     }
                     ToolbarItem(placement: .navigationBarTrailing) {
+                        if let url = viewModel.selectedComicInfo?.url, let title = viewModel.selectedComicInfo?.title {
+                            ShareLink(item: url, subject: Text(title))
+                        }
+                    }
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: { viewModel.favorite() }, label: {
                             Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
                         })

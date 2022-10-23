@@ -41,6 +41,9 @@ As I understood the  task getting the comic explanation, is to present a web vie
 ## Favorite
 I implemented favorite feature, but as I explained previously I had some problems persisting images to the file system, and as I probably will face the same problems persisting the comic json files to the file system, I for now just implemented this feature in memory. I will come back to this if I have more time.
 
+## Sharing Comic
+I added a new ToolbarItem on the trailing side of the Navigation bar for sharing comics. This was very easy in SwiftUI, it's just a one-liner in addition to the ToolbarItem statement. I first didn't understand why it didn't work, but then I came to realize that this must be run on a device that can send messages via Messages to other people, i.e. on a real device. I then tested it by sending the Comic strip I selected to my wife from my iPhone, and it worked beautiful (but my wife didn't understand what was funny by the comic strip 🤣).
+
 ## Conclusion 
 The app now looks like it works fairly well. There are a few things I would like to do, but as I am now over 11 hours into the challenge, I must start to see if I can fix the most obvious missing features.
 
